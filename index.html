@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+
+    <script>
+        function create_countdown_clock(max_timer) {
+            nodes = Math.ceil(Math.log2(max_timer + 1));
+            for (var i = 0; i < nodes; i++) {
+                var timer_digit = $("<div class='circle'></div>");
+                $("#timer").append(timer_digit);
+            }
+        }
+
+        function set_clock() {
+            var digits = $(".circle");
+            var digit_value = Math.pow(2, nodes - 1);
+            var timer_to_show = timer;
+            for (var i = 0; i < nodes; i++) {
+                if (timer_to_show >= digit_value) {
+                    digits.eq(i).removeClass("red");
+                    timer_to_show -= digit_value;
+                } else {
+                    digits.eq(i).addClass("red");
+                }
+                digit_value /= 2;
+            }
+        }
+
+        function decrement_timer() {
+            timer--;
+            console.log(timer);
+            set_clock();
+            if (timer == 0) clearInterval(timer_interval);
+        }
+
+        $(function() {
+            $("#start-timer-button").click(function() {
+                max_timer = timer = parseInt($("#timer-value").val());
+                $("#countdown-initialize").hide();
+                create_countdown_clock(max_timer);
+                set_clock();
+                timer_interval = setInterval(decrement_timer, 1000);
+            });
+        });
+    </script>
+
+    <style>
+        .circle {
+            display: inline-block;
+            background: green;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .circle.red {
+            background: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="countdown-initialize">
+        <input type="text" id="timer-value" />
+        <button id="start-timer-button"> Start </button>
+    </div>
+    <div id="timer" style="display: inline-block"></div>
+</body>
+
+</html>
