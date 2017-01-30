@@ -5,9 +5,10 @@
 
     <script>
         function create_countdown_clock(max_timer) {
-            nodes = Math.ceil(Math.log2(max_timer + 1));
+            nodes = 22;
+            var bintime = ['24d', '12d', '6d', '3d', '1.5d', '18h', '9h', '4h', '2h', '1h', '34m', '17m', '8m', '4m', '2m', '1m', '32s', '16s', '8s', '4s', '2s', '1s'];
             for (var i = 0; i < nodes; i++) {
-                var timer_digit = $("<div class='circle'></div>");
+                var timer_digit = $("<div class='circle'><span class='switch-time'>" + bintime[i] + "</span></div>");
                 $("#timer").append(timer_digit);
             }
         }
@@ -18,10 +19,10 @@
             var timer_to_show = timer;
             for (var i = 0; i < nodes; i++) {
                 if (timer_to_show >= digit_value) {
-                    digits.eq(i).removeClass("red");
+                    digits.eq(i).removeClass("switch");
                     timer_to_show -= digit_value;
                 } else {
-                    digits.eq(i).addClass("red");
+                    digits.eq(i).addClass("switch");
                 }
                 digit_value /= 2;
             }
@@ -29,43 +30,58 @@
 
         function decrement_timer() {
             timer--;
-            console.log(timer);
             set_clock();
             if (timer == 0) clearInterval(timer_interval);
         }
 
         $(function() {
-            $("#start-timer-button").click(function() {
-                max_timer = timer = parseInt($("#timer-value").val());
-                $("#countdown-initialize").hide();
-                create_countdown_clock(max_timer);
-                set_clock();
-                timer_interval = setInterval(decrement_timer, 1000);
-            });
+            max_timer = timer = Math.floor((new Date(2017, 2, 3, 0, 0, 0, 0) - new Date()) / 1000);
+            create_countdown_clock(max_timer);
+            set_clock();
+            timer_interval = setInterval(decrement_timer, 1000);
         });
     </script>
 
     <style>
-        .circle {
-            display: inline-block;
-            background: green;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
+        body {
+            background-image: url("switch-back.jpg");
+            background-position: 205px -20px;
+            overflow: hidden;
         }
         
-        .circle.red {
-            background: red;
+        .circle {
+            background-image: url("fwp.jpg");
+            background-size: 130px 90px;
+            background-position: -30px 0;
+            display: inline-block;
+            border-radius: 50%;
+            width: 84px;
+            height: 84px;
+        }
+        
+        .circle.switch {
+            background-image: url("switch.jpg");
+            background-size: 200px 120px;
+            background-position: -16px -25px;
+            border: 1px solid darkgray;
+        }
+        
+        #timer {
+            margin: 750px auto;
+        }
+        
+        .switch-time {
+            position: relative;
+            top: -20px;
+            margin: 30px;
+            font-family: sans-serif;
+            font-weight: bold;
         }
     </style>
 
 </head>
 
 <body>
-    <div id="countdown-initialize">
-        <input type="text" id="timer-value" />
-        <button id="start-timer-button"> Start </button>
-    </div>
     <div id="timer" style="display: inline-block"></div>
 </body>
 
