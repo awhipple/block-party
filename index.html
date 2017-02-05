@@ -11,7 +11,9 @@
             nodes = 22;
             var bintime = ['24d', '12d', '6d', '3d', '1.5d', '18h', '9h', '4h', '2h', '1h', '34m', '17m', '8m', '4m', '2m', '1m', '32s', '16s', '8s', '4s', '2s', '1s'];
             for (var i = 0; i < nodes; i++) {
-                var timer_digit = $("<div class='circle'><span class='switch-time'>" + bintime[i] + "</span></div>");
+                var time_display = $("<div class='switch-time'>" + bintime[i] + "</div>");
+                $("#time").append(time_display);
+                var timer_digit = $("<div class='circ-contain'><div class='circle'></div></div>");
                 $("#timer").append(timer_digit);
             }
         }
@@ -60,35 +62,51 @@
     <style>
         body {
             background-image: url("switch-back.jpg");
-            background-position: 205px -20px;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-color: #d30013;
             overflow: hidden;
+        }
+        
+        .circ-contain {
+            display: inline-block;
+            width: 4.5%;
+            height: 300px;
         }
         
         .circle {
             background-image: url("fwp.jpg");
-            background-size: 130px 90px;
-            background-position: -30px 0;
-            display: inline-block;
+            background-size: 130% 100%;
+            background-position: 80% 0;
             border-radius: 50%;
-            width: 84px;
-            height: 84px;
+            width: 100%;
+            padding-bottom: 100%;
             border: 1px solid darkgrey;
         }
         
         .circle.switch {
             background-image: url("switch.jpg");
-            background-size: 200px 120px;
-            background-position: -16px -25px;
+            background-size: 240% 140%;
+            background-position: 13% 70%;
         }
         
         #timer {
-            margin: 750px auto;
+            display: inline-block;
+            position: fixed;
+            width: 100%;
+            height: 150px;
+            margin: 0% auto;
+            bottom: 0px;
+        }
+        
+        #time {
+            width: 100%;
+            margin-left: 1.7%;
         }
         
         .switch-time {
-            position: relative;
-            top: -20px;
-            margin: 30px;
+            display: inline-block;
+            width: 4.5%;
             font-family: sans-serif;
             font-weight: bold;
             color: white;
@@ -98,7 +116,9 @@
 </head>
 
 <body>
-    <div id="timer" style="display: inline-block"></div>
+    <div id="timer">
+        <div id="time"></div>
+    </div>
 </body>
 
 </html>
